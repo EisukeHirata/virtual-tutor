@@ -3,7 +3,9 @@
     "composite": true,
     "module": "ESNext",
     "moduleResolution": "Node",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["./src/types.d.ts", "node_modules/@types"],
+    "types": ["vite-plugin-env"]
   },
   "include": ["vite.config.ts"]
 }

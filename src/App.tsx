@@ -26,7 +26,7 @@ import {
   HStack,
   Spacer,
 } from "@chakra-ui/react";
-import { ReactGithubStars } from "react-github-stars";
+//import { ReactGithubStars } from "react-github-stars";
 
 import { BiMicrophoneOff, BiMicrophone } from "react-icons/bi";
 
