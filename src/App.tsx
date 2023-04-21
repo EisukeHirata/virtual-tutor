@@ -30,8 +30,6 @@ import {
 
 import { BiMicrophoneOff, BiMicrophone } from "react-icons/bi";
 
-type VoiceIdKey = keyof typeof voiceIdConfig;
-
 const transcriberConfig: Omit<
   AssemblyAITranscriberConfig,
   "samplingRate" | "audioEncoding"
@@ -45,6 +43,7 @@ const voiceIdConfig = {
   Pete: import.meta.env.VITE_PETE_VOICE_ID,
   Dalton: import.meta.env.VITE_DALTON_VOICE_ID,
   Umur: import.meta.env.VITE_UMUR_VOICE_ID,
+  "Anon (Faster)": "",
 };
 const basePlayHtConfig: Omit<
   PlayHtSynthesizerConfig,
@@ -90,53 +89,57 @@ const vocodeConfig: VocodeConfig = {
     {name}
   </Button>
 );*/
-type InterviewerButtonProps = {
-  name: string;
-  interviewer: string;
-  setInterviewer: (name: string) => void;
-};
+interface InterviewerButtonProps {
+  name: VoiceIdKey;
+  interviewer: VoiceIdKey;
+  setInterviewer: (name: VoiceIdKey) => void;
+}
+// Add this type definition for ConversationStatus
+type ConversationStatus = "connecting" | "connected" | "disconnected" | "error";
 
 const InterviewerButton: React.FC<InterviewerButtonProps> = ({
   name,
   interviewer,
   setInterviewer,
 }) => {
-  const bgColor: string = interviewer === name ? "#f46526" : "";
-  const textColor: string = interviewer === name ? "white" : "";
-
   return (
     <Button
       onClick={() => setInterviewer(name)}
-      bgColor={bgColor}
-      color={textColor}
+      bgColor={interviewer === name ? "#f46526" : ""}
+      color={interviewer === name ? "white" : ""}
     >
       {name}
     </Button>
   );
 };
 
+// Update the ConversationButton component with the changes
 function ConversationButton(props: { config: ConversationConfig }) {
   const { status, start, stop, error, analyserNode } = useConversation(
     props.config
   );
+
+  const typedStatus = status as ConversationStatus;
+  const isDisabled = typedStatus === "connecting";
 
   return (
     <VStack>
       <Button
         bgColor={"green.400"}
         color={"white"}
-        disabled={["connecting"].includes(status)}
-        onClick={status === "connected" ? stop : start}
+        disabled={isDisabled}
+        onClick={typedStatus === "connected" ? stop : start}
       >
-        {status === "connected" ? "Stop Interview" : "Start Interview"}
+        {typedStatus === "connected" ? "Stop Interview" : "Start Interview"}
       </Button>
-      {status === "connected" && <Text>Listening...</Text>}
+      {typedStatus === "connected" && <Text>Listening...</Text>}
     </VStack>
   );
 }
 
+type VoiceIdKey = keyof typeof voiceIdConfig;
 export default function App() {
-  const [interviewer, setInterviewer] = useState("Jared");
+  const [interviewer, setInterviewer] = useState<VoiceIdKey>("Jared");
   const [audioDeviceConfig, setAudioDeviceConfig] = useState<AudioDeviceConfig>(
     {}
   );
