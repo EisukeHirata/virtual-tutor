@@ -49,7 +49,7 @@ const basePlayHtConfig: Omit<
   "samplingRate" | "audioEncoding" | "voiceId"
 > = {
   type: "synthesizer_play_ht",
-  speed: 1.1,
+  speed: "1.1",
   shouldEncodeAsWav: true,
 };
 const azureSynthesizerConfig: Omit<
