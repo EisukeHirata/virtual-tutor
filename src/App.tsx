@@ -30,6 +30,8 @@ import {
 
 import { BiMicrophoneOff, BiMicrophone } from "react-icons/bi";
 
+type VoiceIdKey = keyof typeof voiceIdConfig;
+
 const transcriberConfig: Omit<
   AssemblyAITranscriberConfig,
   "samplingRate" | "audioEncoding"
@@ -79,7 +81,7 @@ const vocodeConfig: VocodeConfig = {
   baseUrl: import.meta.env.VITE_VOCODE_BASE_URL,
 };
 
-const InterviewerButton = ({ name, interviewer, setInterviewer }) => (
+/*const InterviewerButton = ({ name, interviewer, setInterviewer }) => (
   <Button
     onClick={() => setInterviewer(name)}
     bgColor={interviewer === name ? "#f46526" : ""}
@@ -87,7 +89,31 @@ const InterviewerButton = ({ name, interviewer, setInterviewer }) => (
   >
     {name}
   </Button>
-);
+);*/
+type InterviewerButtonProps = {
+  name: string;
+  interviewer: string;
+  setInterviewer: (name: string) => void;
+};
+
+const InterviewerButton: React.FC<InterviewerButtonProps> = ({
+  name,
+  interviewer,
+  setInterviewer,
+}) => {
+  const bgColor: string = interviewer === name ? "#f46526" : "";
+  const textColor: string = interviewer === name ? "white" : "";
+
+  return (
+    <Button
+      onClick={() => setInterviewer(name)}
+      bgColor={bgColor}
+      color={textColor}
+    >
+      {name}
+    </Button>
+  );
+};
 
 function ConversationButton(props: { config: ConversationConfig }) {
   const { status, start, stop, error, analyserNode } = useConversation(
