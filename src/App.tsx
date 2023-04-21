@@ -26,7 +26,7 @@ import {
   HStack,
   Spacer,
 } from "@chakra-ui/react";
-import { ReactGithubStars } from "react-github-stars";
+//import { ReactGithubStars } from "react-github-stars";
 
 import { BiMicrophoneOff, BiMicrophone } from "react-icons/bi";
 
@@ -49,7 +49,7 @@ const basePlayHtConfig: Omit<
   "samplingRate" | "audioEncoding" | "voiceId"
 > = {
   type: "synthesizer_play_ht",
-  speed: 1.1,
+  speed: "1.1",
   shouldEncodeAsWav: true,
 };
 const azureSynthesizerConfig: Omit<
